@@ -1,4 +1,5 @@
 import { IDesktopItem } from '@/models/desktop';
+import services from '@/services';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const defaultImageUrl =
@@ -14,6 +15,7 @@ export const desktopSlice = createSlice({
     switchDesktop: (draft, action: PayloadAction<IDesktopItem>) => {
       draft.id = action.payload.id;
       draft.imageUrl = action.payload.backgroundUrl;
+      services.desktop.select(action.payload.id);
     },
   },
 });

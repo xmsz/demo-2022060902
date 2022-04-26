@@ -1,5 +1,5 @@
-import { useMemoizedFn, useMount, useUpdateEffect } from 'ahooks';
-import { Button, Drawer } from 'antd';
+import { useMount } from 'ahooks';
+import { Button } from 'antd';
 import services from '@/services';
 import { useStoreDispatch, useStoreSelector } from '@/stores';
 import { switchDesktop } from '@/stores/desktop';
@@ -13,18 +13,6 @@ function App() {
   const desktopState = useStoreSelector((state) => state.desktop);
   const dispatch = useStoreDispatch();
 
-  const handleSwitchDesktop = useMemoizedFn(async (id?: string) => {
-    dispatch(
-      switchDesktop(
-        await (id ? services.desktop.detail(id) : services.desktop.default())
-      )
-    );
-  });
-
-  useUpdateEffect(() => {
-    handleSwitchDesktop(desktopState.id);
-  }, [desktopState.id]);
-
   useEffect(() => {
     WindowInst.register();
     return () => {
@@ -32,8 +20,8 @@ function App() {
     };
   }, []);
 
-  useMount(() => {
-    handleSwitchDesktop();
+  useMount(async () => {
+    dispatch(switchDesktop(await services.desktop.default()));
   });
 
   return (

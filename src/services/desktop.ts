@@ -25,4 +25,18 @@ export default class DesktopService {
     const res = await request.post<IDesktopItem>('/api/desktop/create');
     return res.data;
   }
+
+  async select(id: IDesktopItem['id']) {
+    const res = await request.post('/api/desktop/select', {
+      id,
+    });
+    return res.data;
+  }
+
+  async delete(id: string) {
+    const res = await request.post('/api/desktop/delete', {
+      id,
+    });
+    return res.data;
+  }
 }

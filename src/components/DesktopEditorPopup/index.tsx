@@ -1,50 +1,13 @@
+import { CloseCircleFilled, PlusOutlined } from '@ant-design/icons';
+import { useHover, useRequest, useSize, useUnmount } from 'ahooks';
+import { Drawer, DrawerProps } from 'antd';
+import { useMemo, useRef } from 'react';
+
 import compShowApi from '@/libs/compShowApi';
 import services from '@/services';
-import { useStoreSelector } from '@/stores';
-import {
-  CloseCircleFilled,
-  PlusOutlined,
-} from '@ant-design/icons';
-import { useHover, useRequest, useSize, useUnmount } from 'ahooks';
-import { Drawer, DrawerProps, Tag } from 'antd';
-import list from 'antd/lib/list';
-import { useMemo, useRef, useState } from 'react';
+import { useStoreDispatch, useStoreSelector } from '@/stores';
+import { switchDesktop } from '@/stores/desktop';
 import './index.css';
-
-function ItemImage({
-  url,
-  width,
-  height,
-  hasBorder,
-}: {
-  url: string;
-  width: number;
-  height: number;
-  hasBorder: boolean;
-}) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const isHovered = useHover(ref.current);
-
-  useUnmount(() => {
-    ref.current = null;
-  });
-
-  return (
-    <div
-      ref={ref}
-      className={`overflow-hidden border-2 hover:scale-y-110 ${
-        hasBorder ? 'border-gray-500' : 'border-transparent'
-      }`}
-    >
-      <img
-        src={url}
-        // style={{ width, height: isHovered ? height * 1.1 : height }}
-        style={{ width, height }}
-        className={`transition-all ease-linear bg-cover `}
-      />
-    </div>
-  );
-}
 
 function EditorPopup({
   visible = false,
@@ -55,30 +18,30 @@ function EditorPopup({
   onClose?: () => void;
   afterClose?: () => void;
 }) {
+  const dispatch = useStoreDispatch();
   const desktopState = useStoreSelector((state) => state.desktop);
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const { data = [], run, refresh } = useRequest(services.desktop.list);
+  const { data = [], refresh } = useRequest(services.desktop.list);
 
   const itemSize = useSize(ref.current);
   const size = useMemo(() => {
-    if (list.length === 0 || !itemSize) return { width: 0, height: 0 };
+    if (data.length === 0 || !itemSize) return { width: 0, height: 0 };
 
     const maxWidth = 240;
-    const computeWidth = (itemSize.width - list.length * 16) / list.length;
+    const computeWidth = (itemSize.width - data.length * 16) / data.length;
     const width = computeWidth > maxWidth ? maxWidth : computeWidth;
 
     return { width, height: width / 1.8 };
   }, [itemSize, data.length]);
 
+  useUnmount(() => {
+    ref.current = null;
+  });
+
   return (
     <Drawer
-      placement="top"
-      className="ant-drawer-content-transparent"
-      maskStyle={{ background: 'transparent' }}
-      headerStyle={{ display: 'none' }}
-      bodyStyle={{ padding: 0 }}
-      height="auto"
+      {...DrawerConfigProps}
       visible={visible}
       onClose={onClose}
       afterVisibleChange={(visible) => {
@@ -92,19 +55,19 @@ function EditorPopup({
         />
 
         <div ref={ref} className="relative z-1 w-full h-52">
-          <div className="absolute z-0 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center w-full h-52">
+          <div className="absolute z-0 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center gap-4 w-full h-52">
             {data.map((item) => {
               return (
                 <div
                   key={item.id}
-                  className={`px-2`}
-                  onClick={() => {
-                    // navigate(`/${item.id}`);
+                  onClick={async () => {
+                    dispatch(
+                      switchDesktop(await services.desktop.detail(item.id))
+                    );
                   }}
                 >
                   <div className="desktop-item relative">
                     <div
-                      ref={ref}
                       className={`overflow-hidden border-2 transition-all ease-linear  hover:scale-y-105 ${
                         item.id === desktopState.id
                           ? 'border-gray-500'
@@ -119,13 +82,12 @@ function EditorPopup({
 
                     {data.length > 1 && item.id !== desktopState.id && (
                       <CloseCircleFilled
-                        className={`desktop-item-close-icon absolute z-2 left-0 top-0  -translate-x-1/2 -translate-y-1/2 rounded-full text-5 bg-[rgba(0,0,0,0.3)]`}
+                        className={`desktop-item-close-icon absolute z-2 left-0 top-0 -translate-x-1/3 -translate-y-1/2 rounded-full text-5 bg-[rgba(0,0,0,0.3)]`}
                         style={{ color: '#fff' }}
                         onClick={(e) => {
                           e.stopPropagation();
-
                           if (item.id === desktopState.id) return;
-                          // deleteDesktop(item.id);
+                          services.desktop.delete(item.id).then(refresh);
                         }}
                       />
                     )}
@@ -136,7 +98,12 @@ function EditorPopup({
           </div>
         </div>
 
-        <PlusOutlined className="absolute z-1 right-12 top-1/2 -translate-y-1/2 translate-x-1/2 font-bold text-white text-4xl cursor-pointer opacity-30 hover:opacity-70" />
+        <PlusOutlined
+          className="absolute z-1 right-12 top-1/2 -translate-y-1/2 translate-x-1/2 font-bold text-white text-4xl cursor-pointer opacity-30 hover:opacity-70"
+          onClick={() => {
+            services.desktop.create().then(refresh);
+          }}
+        />
       </div>
     </Drawer>
   );
@@ -163,11 +130,7 @@ function DesktopEditorPopup({
   const desktopState = useStoreSelector((state) => state.desktop);
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const {
-    data = [],
-    run: initDesktopList,
-    refresh: reloadDesktopList,
-  } = useRequest(services.desktop.list);
+  const { data = [], refresh } = useRequest(services.desktop.list);
 
   useHover(ref.current, {
     onEnter: () => {
@@ -192,22 +155,28 @@ function DesktopEditorPopup({
         />
         <div
           ref={ref}
-          className="relative z-1 py-3 flex justify-center items-center gap-2"
+          className="relative z-1 py-3 flex justify-center items-center gap-4"
         >
-          {data.map((item) => (
+          {data.map((item, itemIdx) => (
             <div
-              className={`px-1 rounded-md border border-gray-500 bg-gray-500 ${
+              key={item.id}
+              className={`px-1 rounded-md border border-gray-400 bg-gray-400 ${
                 item.id === desktopState.id
                   ? 'text-black bg-white'
-                  : 'text-gray-800'
+                  : 'text-black'
               } `}
             >
-              {item.name}
+              桌面{itemIdx + 1}
             </div>
           ))}
         </div>
 
-        <PlusOutlined className="absolute z-1 right-12 top-1/2 -translate-y-1/2 translate-x-1/2 font-bold text-white text-lg cursor-pointer opacity-30 hover:opacity-70" />
+        <PlusOutlined
+          className="absolute z-1 right-12 top-1/2 -translate-y-1/2 translate-x-1/2 font-bold text-white text-lg cursor-pointer opacity-30 hover:opacity-70"
+          onClick={() => {
+            services.desktop.create().then(refresh);
+          }}
+        />
       </div>
     </Drawer>
   );
