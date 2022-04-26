@@ -9,6 +9,7 @@ import Setting from './components/Setting';
 import compShowApi from './libs/compShowApi';
 import DesktopEditorPopup from './components/DesktopEditorPopup';
 import { initUserInfo } from './stores/user';
+import ApplicationList from './components/ApplicationList';
 
 function App() {
   const desktopState = useStoreSelector((state) => state.desktop);
@@ -53,6 +54,7 @@ function App() {
           设置
         </Button>
       </header>
+      <ApplicationList />
     </div>
   );
 }

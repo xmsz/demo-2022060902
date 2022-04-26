@@ -2,9 +2,8 @@ import services from '@/services';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUserInfo } from '../models/user';
 
-export const initUserInfo = createAsyncThunk(
-  'user/initUserInfo',
-  services.user.info
+export const initUserInfo = createAsyncThunk('user/initUserInfo', async () =>
+  services.user.info()
 );
 
 export const userSlice = createSlice({

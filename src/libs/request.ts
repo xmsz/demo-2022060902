@@ -1,4 +1,6 @@
+import UserLogin from '@/components/UserLogin';
 import axios from 'axios';
+import compShowApi from './compShowApi';
 import { tokenHelper } from './token';
 
 const request = axios.create({
@@ -19,7 +21,7 @@ request.interceptors.response.use(
   (err) => {
     if (err.response.status === 401) {
       tokenHelper.clearToken();
-      console.log(123);
+      compShowApi(UserLogin);
     }
     return Promise.reject(err);
   }

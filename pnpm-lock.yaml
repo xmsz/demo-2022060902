@@ -11,6 +11,7 @@ specifiers:
   ahooks: ^3.3.8
   antd: ^4.20.0
   axios: ^0.26.1
+  dayjs: ^1.11.1
   moment: ^2.29.3
   react: ^18.0.0
   react-dom: ^18.0.0
@@ -26,6 +27,7 @@ dependencies:
   ahooks: 3.3.8_react@18.0.0
   antd: 4.20.0_react-dom@18.0.0+react@18.0.0
   axios: 0.26.1
+  dayjs: 1.11.1
   moment: 2.29.3
   react: 18.0.0
   react-dom: 18.0.0_react@18.0.0

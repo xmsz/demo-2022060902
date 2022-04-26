@@ -31,7 +31,13 @@ function SettingList({
   onItemClick: (item: ISettingItemInfo) => void;
 }) {
   return (
-    <div className="flex flex-wrap border-0 border-b-1px border-b-[#d3cfd0] bg-[#e8e6e6]">
+    <div
+      className="flex flex-wrap border-0 border-b"
+      style={{
+        borderColor: '#d3cfd0',
+        backgroundColor: '#e8e6e6',
+      }}
+    >
       <SettingItem
         iconUrl="https://image-1253987267.cos.ap-guangzhou.myqcloud.com/wallpaper.png"
         name="壁纸"
