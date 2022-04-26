@@ -1,0 +1,18 @@
+.collapse-custom-padding .ant-collapse-header {
+  padding: 0 !important;
+  padding-left: 4px !important;
+}
+.collapse-custom-padding .ant-collapse-header .ant-collapse-arrow {
+  margin-right: 4px !important;
+}
+
+.collapse-custom-padding
+  .ant-collapse-item
+  > .ant-collapse-content
+  > .ant-collapse-content-box {
+  padding: 0 !important;
+}
+
+.collapse-custom-content-box-item {
+  padding-left: 24px !important;
+}

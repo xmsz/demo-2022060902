@@ -39,4 +39,18 @@ export default class DesktopService {
     });
     return res.data;
   }
+
+  async updateBackground(
+    id: IDesktopItem['id'],
+    backgroundUrl: IDesktopItem['backgroundUrl']
+  ) {
+    const res = await request.post<IDesktopItem>(
+      '/api/desktop/background/update',
+      {
+        id,
+        backgroundUrl,
+      }
+    );
+    return res.data;
+  }
 }

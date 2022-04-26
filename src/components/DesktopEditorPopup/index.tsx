@@ -61,6 +61,7 @@ function EditorPopup({
                 <div
                   key={item.id}
                   onClick={async () => {
+                    services.desktop.select(item.id);
                     dispatch(
                       switchDesktop(await services.desktop.detail(item.id))
                     );

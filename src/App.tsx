@@ -8,6 +8,7 @@ import WindowInst from './libs/window';
 import Setting from './components/Setting';
 import compShowApi from './libs/compShowApi';
 import DesktopEditorPopup from './components/DesktopEditorPopup';
+import { initUserInfo } from './stores/user';
 
 function App() {
   const desktopState = useStoreSelector((state) => state.desktop);
@@ -22,6 +23,7 @@ function App() {
 
   useMount(async () => {
     dispatch(switchDesktop(await services.desktop.default()));
+    dispatch(initUserInfo());
   });
 
   return (
