@@ -3,15 +3,14 @@ import { Button } from 'antd';
 import services from '@/services';
 import { useStoreDispatch, useStoreSelector } from '@/stores';
 import { switchDesktop } from '@/stores/desktop';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import WindowInst from './libs/window';
 import Setting from './components/Setting';
-import compShowApi from './libs/compShowApi';
 import DesktopEditorPopup from './components/DesktopEditorPopup';
-import { initUserInfo } from './stores/user';
 import ApplicationList from './components/ApplicationList';
 
 function App() {
+  const [visible, setVisible] = useState(false);
   const desktopState = useStoreSelector((state) => state.desktop);
   const dispatch = useStoreDispatch();
 
@@ -24,7 +23,6 @@ function App() {
 
   useMount(async () => {
     dispatch(switchDesktop(await services.desktop.default()));
-    dispatch(initUserInfo());
   });
 
   return (
@@ -39,7 +37,7 @@ function App() {
           type="text"
           style={{ color: 'white' }}
           onClick={() => {
-            compShowApi(DesktopEditorPopup, {});
+            setVisible(true);
           }}
         >
           切换桌面
@@ -55,6 +53,13 @@ function App() {
         </Button>
       </header>
       <ApplicationList />
+
+      <DesktopEditorPopup
+        visible={visible}
+        onClose={() => {
+          setVisible(false);
+        }}
+      />
     </div>
   );
 }

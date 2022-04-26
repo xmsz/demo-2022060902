@@ -120,13 +120,11 @@ const DrawerConfigProps: DrawerProps = {
 };
 
 function DesktopEditorPopup({
-  visible = false,
+  visible,
   onClose,
-  afterClose,
 }: {
-  visible?: boolean;
-  onClose?: () => void;
-  afterClose?: () => void;
+  visible: boolean;
+  onClose: () => void;
 }) {
   const desktopState = useStoreSelector((state) => state.desktop);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -136,19 +134,12 @@ function DesktopEditorPopup({
   useHover(ref.current, {
     onEnter: () => {
       compShowApi(EditorPopup);
-      onClose?.();
+      onClose();
     },
   });
 
   return (
-    <Drawer
-      {...DrawerConfigProps}
-      visible={visible}
-      onClose={onClose}
-      afterVisibleChange={(visible) => {
-        !visible && afterClose?.();
-      }}
-    >
+    <Drawer {...DrawerConfigProps} visible={visible} onClose={onClose}>
       <div className="relative flex justify-center pr-24 pl-12 overflow-hidden">
         <div
           className={`absolute z-0 left-0 top-0 w-full h-screen bg-cover bg-no-repeat bg-center blur-md`}
