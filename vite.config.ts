@@ -18,4 +18,7 @@ export default ({ mode }) => ({
       },
     },
   },
+  build: {
+    outDir: 'build',
+  },
 });
