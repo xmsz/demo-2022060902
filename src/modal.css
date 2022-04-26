@@ -1,0 +1,31 @@
+.modal-footer-hidden .ant-modal-confirm-btns {
+  @apply hidden;
+}
+
+.modal-body-content-full .ant-modal {
+  @apply top-0 max-w-none w-screen h-screen p-0 m-0;
+}
+
+.modal-body-content-full .ant-modal-confirm-content {
+  @apply relative m-0 p-0 w-screen h-screen;
+}
+
+.modal-body-content-full .ant-modal-body {
+  @apply p-0 m-0;
+}
+
+.modal-body-background-transparent .ant-modal-content {
+  @apply shadow-none bg-transparent;
+}
+
+.modal-pointer-events-none {
+  @apply pointer-events-none;
+}
+
+.modal-pointer-events-none .ant-modal-content {
+  @apply pointer-events-none;
+}
+
+.modal-pointer-events-none .ant-modal-confirm-content {
+  @apply pointer-events-none;
+}
