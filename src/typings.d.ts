@@ -1,7 +1,4 @@
-interface IPage<T> {
-  page: number;
-  pageSize: number;
-  total: number;
-  last: boolean;
-  list: T[];
+declare module '*.module.css' {
+  const classes: { [key: string]: string };
+  export default classes;
 }
