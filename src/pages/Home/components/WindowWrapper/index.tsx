@@ -3,6 +3,7 @@ import EventEmitter from 'events';
 import { useMemoizedFn } from 'ahooks';
 import dayjs from 'dayjs';
 import DraggableWrapper from './DraggableWrapper';
+import store from '@/store';
 
 const eventEmitter = new EventEmitter();
 
@@ -14,7 +15,10 @@ interface IWindowItem {
 function WindowWrapper() {
   const [state, setState] = useState<IWindowItem[]>([]);
 
+  const menuDispatch = store.useModelDispatchers('menu');
+
   const onApplicationOpen = useMemoizedFn((value) => {
+    menuDispatch.closeMenu();
     setState((pre) => [...pre, value]);
   });
 
@@ -30,6 +34,7 @@ function WindowWrapper() {
   });
 
   const onApplicationFocus = useMemoizedFn((id: IWindowItem['id']) => {
+    menuDispatch.closeMenu();
     setState((pre) => {
       const next = [...pre];
       const findIdx = next.findIndex((item) => item.id === id);
@@ -65,7 +70,7 @@ function WindowWrapper() {
   );
 }
 
-export function Add(payload: { title?: string; headContent?: ReactNode; content: ReactNode }) {
+export function AppOpen(payload: { title?: string; headContent?: ReactNode; content: ReactNode }) {
   const id = dayjs().valueOf();
   eventEmitter.emit('onApplicationOpen', {
     id,

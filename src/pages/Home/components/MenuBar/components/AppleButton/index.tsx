@@ -1,54 +1,57 @@
 import AppleIcon from '@/assets/images/apple-logo.png';
+import SystemSetting from '@/components/SystemSetting';
+import { useMemoizedFn } from 'ahooks';
+import { AppOpen } from '../../../WindowWrapper';
 import MenuPopup from '../MenuPopup';
 
 const MenuList = [
   {
-    title: 'About This Mac',
+    title: '关于本机',
     separator: true,
     rightLabel: '',
   },
   {
-    title: 'System Preferences',
+    title: '系统偏好设置',
     separator: false,
     rightLabel: '',
   },
   {
-    title: 'App Store...',
+    title: '应用商店...',
     separator: true,
-    rightLabel: '8 updates',
+    rightLabel: '8项更新',
   },
   {
-    title: 'Recent Items',
+    title: '最近使用的项目',
     separator: true,
     rightLabel: '',
   },
   {
-    title: 'Force Quit',
+    title: '强制退出',
     separator: true,
     rightLabel: '⌥⌘⎋',
   },
   {
-    title: 'Sleep',
+    title: '睡眠',
     separator: false,
     rightLabel: '',
   },
   {
-    title: 'Restart...',
+    title: '重新启动...',
     separator: false,
     rightLabel: '',
   },
   {
-    title: 'Shut Down...',
+    title: '关机...',
     separator: true,
     rightLabel: '',
   },
   {
-    title: 'Lock Screen',
+    title: '锁定屏幕',
     separator: false,
     rightLabel: '^⌘Q',
   },
   {
-    title: 'Log Out Soroush...',
+    title: '退出登录...',
     separator: false,
     rightLabel: '⇧⌘Q',
   },
@@ -61,6 +64,20 @@ interface Props {
 }
 
 function AppleButton({ active, onClick, onMouseEnter }: Props) {
+  const handleMenuItemClick = useMemoizedFn((title: string) => {
+    switch (title) {
+      case '系统偏好设置':
+        AppOpen({
+          headContent: SystemSetting.HeaderElement,
+          content: <SystemSetting />,
+        });
+        break;
+
+      default:
+        break;
+    }
+  });
+
   return (
     <button
       className="relative px-2 h-6 rounded transition-all duration-200"
@@ -71,7 +88,7 @@ function AppleButton({ active, onClick, onMouseEnter }: Props) {
       onMouseEnter={onMouseEnter}
     >
       <img className="w-3" src={AppleIcon} />
-      {active && <MenuPopup list={MenuList} />}
+      {active && <MenuPopup list={MenuList} onItemClick={handleMenuItemClick} />}
     </button>
   );
 }

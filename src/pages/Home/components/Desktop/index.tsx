@@ -2,7 +2,8 @@ import store from '@/store';
 import { useMemoizedFn } from 'ahooks';
 import { useState } from 'react';
 import TimeIconUrl from '@/assets/images/timestamp.png';
-import { Add } from '../WindowWrapper';
+import { AppOpen } from '../WindowWrapper';
+import Timestamp from '@/components/Timestamp';
 
 interface IDesktopItem {
   id: string;
@@ -10,7 +11,7 @@ interface IDesktopItem {
   icon: string;
 }
 
-const desktopList: IDesktopItem[] = [{ id: '1', title: '时间戳转换', icon: TimeIconUrl }];
+const desktopList: IDesktopItem[] = [{ id: 'timestamp', title: '时间戳转换', icon: TimeIconUrl }];
 
 function Desktop() {
   const [focusId, setFocusId] = useState<IDesktopItem['id']>('');
@@ -29,10 +30,18 @@ function Desktop() {
   const handleDoubleClickDesktopItem = useMemoizedFn((id: string) => {
     setFocusId('');
     menuDispatch.closeMenu();
-    Add({
-      title: '123',
-      content: <div>11111</div>,
-    });
+
+    switch (id) {
+      case 'timestamp':
+        AppOpen({
+          title: '时间戳转换',
+          content: <Timestamp />,
+        });
+        break;
+
+      default:
+        break;
+    }
   });
 
   return (
