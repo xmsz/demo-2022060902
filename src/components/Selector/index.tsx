@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useMemoizedFn } from 'ahooks';
+import { useRef } from 'react';
+import { render } from 'react-dom';
 
 export interface ISelectorItem {
   label: string;
@@ -13,17 +15,67 @@ interface IProps {
 }
 
 function Selector({ dataSource, value, className, onSelect }: IProps) {
-  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const showSelectorPopup = useMemoizedFn(() => {
+    const container = document.createElement('div');
+    const onClose = () => {
+      container.parentNode?.removeChild(container);
+    };
+
+    document.body.appendChild(container);
+
+    render(
+      <div
+        className="fixed  left-0 top-0 w-screen h-screen"
+        style={{
+          zIndex: '1000',
+        }}
+        onClickCapture={onClose}
+        onClick={onClose}
+      >
+        <div
+          className="absolute z-0  p-1 rounded-md shadow"
+          style={{
+            left: ref.current?.getBoundingClientRect().left,
+            top: ref.current?.getBoundingClientRect().top,
+            minWidth: '160px',
+            backgroundColor: 'rgba(250,250,250,0.9)',
+            backdropFilter: 'blur(20px)',
+          }}
+        >
+          {dataSource.map((item) => {
+            return (
+              <div
+                className="flex items-center rounded cursor-default hover:text-white hover:bg-blue-500"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelect(item.value);
+                  onClose();
+                }}
+              >
+                <div className={`flex-shrink-0 text-sm px-1 ${item.value === value ? 'opacity-100' : 'opacity-0'}`}>
+                  ✓
+                </div>
+                <div className="py-0.5 pr-3 text-sm whitespace-nowrap rounded-md ">{item.label}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>,
+      container,
+    );
+  });
 
   return (
-    <div className={`relative my-2 ${className}`}>
+    <div ref={ref} className={`my-2 ${className}`}>
       <div
-        className="flex items-center px-0.5 border border-gray-300 rounded bg-white"
-        onClick={() => {
-          setVisible(true);
-        }}
+        className="flex items-center px-0.5 border border-gray-300 rounded bg-white cursor-default"
+        onClick={showSelectorPopup}
       >
-        <div className="flex-grow text-sm px-1.5">{dataSource.find((item) => item.value === value)?.label}</div>
+        <div className="flex-grow text-sm px-1.5 select-none">
+          {dataSource.find((item) => item.value === value)?.label}
+        </div>
         <div
           className="relative flex-shrink-0 w-4 h-4 rounded cursor-default"
           style={{
@@ -46,33 +98,6 @@ function Selector({ dataSource, value, className, onSelect }: IProps) {
           </div>
         </div>
       </div>
-
-      {visible && (
-        <div
-          className="absolute z-10 -left-1 -top-1 p-1 rounded-md bg-gray-200 bg-opacity-65 shadow"
-          style={{
-            minWidth: '160px',
-            backdropFilter: 'blur(20px)',
-          }}
-        >
-          {dataSource.map((item) => {
-            return (
-              <div
-                className="flex items-center rounded cursor-default hover:text-white hover:bg-blue-500"
-                onClick={() => {
-                  onSelect(item.value);
-                  setVisible(false);
-                }}
-              >
-                <div className={`flex-shrink-0 text-sm px-1 ${item.value === value ? 'opacity-100' : 'opacity-0'}`}>
-                  ✓
-                </div>
-                <div className="py-0.5 text-sm whitespace-nowrap rounded-md ">{item.label}</div>
-              </div>
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 }
