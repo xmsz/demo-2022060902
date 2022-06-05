@@ -73,6 +73,7 @@ function MenuItem({
           {value.children?.map((item) => {
             return (
               <div
+                key={item.menuId}
                 className={`pl-7 text-sm ${activeId === item.menuId ? 'bg-blue-600 text-white' : ''}`}
                 onClick={() => {
                   onActive(item);

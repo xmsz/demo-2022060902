@@ -150,6 +150,7 @@ function DesktopAndScreensaver() {
             {data?.list.map((item) => {
               return (
                 <div
+                  key={item.url}
                   className="bg-no-repeat bg-cover bg-center"
                   style={{ width: '94px', height: '60px', backgroundImage: `url(${item.url})` }}
                 />
