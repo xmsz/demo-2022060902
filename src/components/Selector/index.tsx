@@ -11,7 +11,7 @@ interface IProps {
   dataSource: ISelectorItem[];
   value: ISelectorItem['value'];
   className?: string;
-  onSelect: (value: ISelectorItem['value']) => void;
+  onSelect?: (value: ISelectorItem['value']) => void;
 }
 
 function Selector({ dataSource, value, className, onSelect }: IProps) {
@@ -50,7 +50,7 @@ function Selector({ dataSource, value, className, onSelect }: IProps) {
                 className="flex items-center rounded cursor-default hover:text-white hover:bg-blue-500"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onSelect(item.value);
+                  onSelect?.(item.value);
                   onClose();
                 }}
               >

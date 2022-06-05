@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import defaultBackgroundImage from '@/assets/images/surtur-wallpaper.jpg';
 import { useDebounceFn, useRequest } from 'ahooks';
 import services from '@/services';
 import { IPage, IWallpaperItem } from '@/interface';
 import MenuList from '../MenuList';
+import Selector from '../Selector';
 
 function DesktopAndScreensaver() {
   const [activeKey, setActiveKey] = useState('desktop');
-  const [bgPositionVisible, setBgPostionVisible] = useState(false);
 
   const { data, run } = useRequest(async (page = 0, pageSize = 16) => {
     const res = await services.wallpaper.list({ page, pageSize });
@@ -73,68 +73,16 @@ function DesktopAndScreensaver() {
 
           <div className="pt-2">
             <div className="text-sm">Mac</div>
-            <div className="relative my-2">
-              <div
-                className="flex items-center px-0.5 w-40 border border-gray-300 rounded bg-white"
-                onClick={() => {
-                  setBgPostionVisible(true);
-                }}
-              >
-                <div className="flex-grow text-sm px-1.5">充满屏幕</div>
-                <div
-                  className="relative flex-shrink-0 w-4 h-4 rounded cursor-default"
-                  style={{
-                    backgroundColor: '#1283ff',
-                  }}
-                >
-                  <div className="absolute z-0 left-1/2 top-0 -translate-x-1/2 -translate-y-1">
-                    <svg width="1em" height="1em" viewBox="0 0 24 24" fontSize={17}>
-                      <path fill="#fff" d="M7.4 15.4L6 14l6-6l6 6l-1.4 1.4l-4.6-4.6Z"></path>
-                    </svg>
-                  </div>
-
-                  <div className="absolute z-0 left-1/2 bottom-0 -translate-x-1/2 translate-y-1">
-                    <svg width="1em" height="1em" viewBox="0 0 24 24" fontSize={17}>
-                      <path
-                        fill="#fff"
-                        d="M12 14.975q-.2 0-.387-.075q-.188-.075-.313-.2l-4.6-4.6q-.275-.275-.275-.7q0-.425.275-.7q.275-.275.7-.275q.425 0 .7.275l3.9 3.9l3.9-3.9q.275-.275.7-.275q.425 0 .7.275q.275.275.275.7q0 .425-.275.7l-4.6 4.6q-.15.15-.325.212q-.175.063-.375.063Z"
-                      ></path>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {bgPositionVisible && (
-                <div
-                  className="absolute z-10 -left-1 -top-1 p-1 rounded-md bg-gray-200 bg-opacity-65 shadow"
-                  style={{
-                    minWidth: '160px',
-                    backdropFilter: 'blur(20px)',
-                  }}
-                >
-                  {[
-                    { title: '充满屏幕', selected: true },
-                    { title: '适合于屏幕', selected: false },
-                    { title: '拉伸以充满屏幕', selected: false },
-                    { title: '居中', selected: false },
-                  ].map((item) => {
-                    return (
-                      <div
-                        className="flex items-center rounded cursor-default hover:text-white hover:bg-blue-500"
-                        onClick={() => {
-                          setBgPostionVisible(false);
-                        }}
-                      >
-                        <div className={`flex-shrink-0 text-sm px-1 ${item.selected ? 'opacity-100' : 'opacity-0'}`}>
-                          ✓
-                        </div>
-                        <div className="py-0.5 text-sm whitespace-nowrap rounded-md ">{item.title}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+            <Selector
+              className="my-2"
+              value={'cover'}
+              dataSource={[
+                { label: '充满屏幕', value: 'cover' },
+                { label: '适合于屏幕', value: 'contain' },
+                { label: '拉伸以充满屏幕', value: 'lcover' },
+                { label: '居中', value: 'center' },
+              ]}
+            />
           </div>
         </div>
 
