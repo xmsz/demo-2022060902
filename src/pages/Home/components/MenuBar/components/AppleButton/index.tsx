@@ -1,7 +1,7 @@
 import AppleIcon from '@/assets/images/apple-logo.png';
 import SystemSetting from '@/components/SystemSetting';
 import { useMemoizedFn } from 'ahooks';
-import { AppOpen } from '../../../WindowWrapper';
+import { AppOpen } from '../../../../../../components/WindowWrapper';
 import MenuPopup from '../MenuPopup';
 
 const MenuList = [

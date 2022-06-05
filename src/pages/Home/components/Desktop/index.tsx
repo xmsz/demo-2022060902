@@ -2,7 +2,7 @@ import store from '@/store';
 import { useMemoizedFn } from 'ahooks';
 import { useState } from 'react';
 import TimeIconUrl from '@/assets/images/timestamp.png';
-import { AppOpen } from '../WindowWrapper';
+import { AppOpen } from '../../../../components/WindowWrapper';
 import Timestamp from '@/components/Timestamp';
 
 interface IDesktopItem {

@@ -26,7 +26,7 @@ function DraggableWrapper({
       }}
     >
       <div
-        className="absolute  left-1/2 top-1/3 inline-block bg-white pointer-events-auto shadow-xl overflow-hidden"
+        className="absolute  left-1/2 top-1/2 inline-block bg-white pointer-events-auto shadow-xl overflow-hidden"
         style={{ minWidth: '320px', borderRadius: '10px' }}
         onClick={onFocus}
       >
@@ -51,7 +51,7 @@ function DraggableWrapper({
           {headContent}
         </div>
         <div className="bg-gray-100">
-          <div style={{ width: '600px' }}>{content}</div>
+          <div>{content}</div>
         </div>
       </div>
     </Draggable>

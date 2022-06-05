@@ -1,17 +1,26 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import EventEmitter from 'events';
 import { useMemoizedFn } from 'ahooks';
 import AvatarUrl from '@/assets/images/avatar.png';
 import DesktopAppUrl from '@/assets/images/desktop-app.png';
+import DesktopAndScreensaver from './DesktopAndScreensaver';
 
 const eventEmitter = new EventEmitter();
 
-const list = [
+interface ISettingItem {
+  id: string;
+  name: string;
+  title: string | ReactNode;
+  icon: string;
+}
+
+const FirstSettingList: ISettingItem[] = [
   {
+    id: 'desktopAndScreensaver',
+    name: '屏幕保护程序',
     title: (
       <p>
-        桌面与
-        <br />
+        桌面与 <br />
         屏幕保护程序
       </p>
     ),
@@ -20,40 +29,130 @@ const list = [
 ];
 
 function SystemSetting() {
-  return (
-    <div>
-      <div className="flex justify-between items-center h-28 bg-gray-50">
-        <div className="flex items-start px-8 gap-2">
-          <div className="flex justify-center items-center w-16 h-16 overflow-hidden" style={{ height: '60px' }}>
-            <div
-              className="w-16 h-16 rounded-full bg-no-repeat bg-center bg-cover"
-              style={{ backgroundImage: `url(${AvatarUrl})` }}
-            />
-          </div>
-          <div>
-            <p className="text-lg">毅以异</p>
-            <p className="text-xs">Apple ID、iCloud、媒体与App Store</p>
-          </div>
-        </div>
-      </div>
+  const [list, setList] = useState<Array<{ id: string; content: ReactNode }>>([]);
+  const [lastItem, setLastItem] = useState<ISettingItem>({ id: '', name: '', title: '', icon: '' });
+  const [current, setCurrent] = useState('home');
 
-      <div className="border-t border-gray-300 bg-gray-100">
-        {list.map((item) => {
-          return (
-            <div className="flex flex-col items-center justify-center w-26 h-28">
-              <div
-                className="w-12 h-12 bg-contain bg-center bg-no-repeat"
-                style={{
-                  backgroundImage: `url(${item.icon})`,
-                }}
-              />
-              <p className="text-xs text-center" style={{ color: '#666' }}>
-                {item.title}
-              </p>
+  const handleUpdateTitle = useMemoizedFn((title: string) => {
+    eventEmitter.emit('onTitleUpdate', title);
+  });
+
+  const handleUpdateBFStatus = useMemoizedFn((payload: { back: boolean; forward: boolean }) => {
+    eventEmitter.emit('onBFStstusUpdate', payload);
+  });
+
+  const handleClickSettingItem = useMemoizedFn((item: ISettingItem) => {
+    function update(info: ISettingItem) {
+      setCurrent(info.id);
+      setLastItem(info);
+      handleUpdateTitle(info.name);
+      handleUpdateBFStatus({
+        back: true,
+        forward: false,
+      });
+    }
+
+    if (list.findIndex((findItem) => findItem.id === item.id) >= 0) {
+      update(item);
+      return;
+    }
+
+    switch (item.id) {
+      case 'desktopAndScreensaver':
+        setList((pre) => {
+          const next = [...pre];
+          next.push({ id: item.id, content: <DesktopAndScreensaver key={item.id} /> });
+          return next;
+        });
+        update(item);
+        break;
+
+      default:
+        break;
+    }
+  });
+
+  const onSettingBack = useMemoizedFn(() => {
+    setCurrent(() => {
+      handleUpdateTitle('系统与偏好设置');
+      return 'home';
+    });
+
+    handleUpdateBFStatus({
+      back: false,
+      forward: true,
+    });
+  });
+
+  const onSettingForward = useMemoizedFn(() => {
+    setCurrent(lastItem.id);
+    handleUpdateTitle(lastItem.name);
+
+    handleUpdateBFStatus({
+      back: true,
+      forward: false,
+    });
+  });
+
+  useEffect(() => {
+    eventEmitter.on('onSettingBack', onSettingBack);
+    eventEmitter.on('onSettingForward', onSettingForward);
+    return () => {
+      eventEmitter.off('onSettingBack', onSettingBack);
+      eventEmitter.off('onSettingForward', onSettingForward);
+    };
+  }, []);
+
+  return (
+    <div
+      style={{
+        width: '666px',
+      }}
+    >
+      {current === 'home' && (
+        <>
+          <div className="flex justify-between items-center h-28 bg-gray-50">
+            <div className="flex items-start px-8 gap-2">
+              <div className="flex justify-center items-center w-16 h-16 overflow-hidden" style={{ height: '60px' }}>
+                <div
+                  className="w-16 h-16 rounded-full bg-no-repeat bg-center bg-cover"
+                  style={{ backgroundImage: `url(${AvatarUrl})` }}
+                />
+              </div>
+              <div>
+                <p className="text-lg">毅以异</p>
+                <p className="text-xs">Apple ID、iCloud、媒体与App Store</p>
+              </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+
+          <div className="border-t border-gray-300 bg-gray-100">
+            {FirstSettingList.map((item) => {
+              return (
+                <div
+                  key={item.id}
+                  className="flex flex-col items-center justify-center w-26 h-28"
+                  onClick={() => {
+                    handleClickSettingItem(item);
+                  }}
+                >
+                  <div
+                    className="w-12 h-12 bg-contain bg-center bg-no-repeat"
+                    style={{
+                      backgroundImage: `url(${item.icon})`,
+                    }}
+                  />
+                  <div className="text-xs text-center" style={{ color: '#666' }}>
+                    {item.title}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+
+      {list.filter((item) => item.id === current).map((item) => item.content)}
     </div>
   );
 }
