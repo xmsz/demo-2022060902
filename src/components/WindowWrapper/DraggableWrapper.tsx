@@ -1,5 +1,5 @@
 import BtnClose from '@/components/BtnClose';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 
 function DraggableWrapper({
@@ -15,14 +15,22 @@ function DraggableWrapper({
   onClose: () => void;
   onFocus: () => void;
 }) {
+  const ref = useRef<HTMLDivElement | null>(null);
   const [disabled, setDisabled] = useState(false);
+  const [bounds, setBounds] = useState({ top: 0 });
 
   return (
     <Draggable
       disabled={disabled}
+      bounds={bounds}
       positionOffset={{ x: '-50%', y: '-50%' }}
-      onStart={() => {
+      onStart={(event, uiData) => {
         onFocus();
+
+        const targetRect = ref.current?.getBoundingClientRect();
+        setBounds(() => ({
+          top: -(targetRect?.top || 0) + uiData.y + 24,
+        }));
       }}
     >
       <div
@@ -35,6 +43,7 @@ function DraggableWrapper({
           style={{
             minHeight: '36px',
           }}
+          ref={ref}
           onMouseOver={() => {
             if (disabled) {
               setDisabled(false);
@@ -46,7 +55,7 @@ function DraggableWrapper({
         >
           <div className="absolute z-10 left-3 top-1/2 -translate-y-1/2 flex items-center">
             <BtnClose onClick={onClose} />
-            {!headContent && <b className="ml-4 text-base text-black text-opacity-70">{title}</b>}
+            {!headContent && <b className="ml-4 text-base text-black text-opacity-70 select-none">{title}</b>}
           </div>
           {headContent}
         </div>
