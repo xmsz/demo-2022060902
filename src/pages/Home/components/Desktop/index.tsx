@@ -3,10 +3,12 @@ import { useMemoizedFn } from 'ahooks';
 import { ReactNode, useState } from 'react';
 import TimeIconUrl from '@/assets/images/timestamp.png';
 import UberConferenceIconUrl from '@/assets/images/UberConference.png';
+import BazarakiIconUrl from '@/assets/images/bazaraki.png';
 import { AppOpen } from '../../../../components/WindowWrapper';
 import Timestamp from '@/components/Timestamp';
 import NanoID from '@/components/NanoID';
 import UUID from '@/components/UUID';
+import Base64 from '@/components/Base64';
 
 interface IDesktopItem {
   id: string;
@@ -22,6 +24,7 @@ const desktopList: IDesktopItem[] = [
     icon: 'https://camo.githubusercontent.com/c306d97014be1caa9a2a511a0ff4722d54a77b0b6c81a18c81113d6051408325/68747470733a2f2f61692e6769746875622e696f2f6e616e6f69642f6c6f676f2e737667',
   },
   { id: 'uuid', title: 'UUID', icon: UberConferenceIconUrl },
+  { id: 'base64', title: 'base64编码', icon: BazarakiIconUrl },
 ];
 
 function Desktop() {
@@ -51,6 +54,9 @@ function Desktop() {
         break;
       case 'uuid':
         AppOpen({ title: 'UUID生成器', content: <UUID /> });
+        break;
+      case 'base64':
+        AppOpen({ title: 'Base64', content: <Base64 /> });
         break;
 
       default:
@@ -86,7 +92,7 @@ function Desktop() {
               <img className="w-12" src={item.icon} />
             </div>
             <h3
-              className={`mt-1 px-2 py-0.5  text-xs text-white font-bold whitespace-nowrap text-center rounded-md select-none ${
+              className={`mt-1 px-2 py-0.5 text-xs text-white font-bold whitespace-nowrap text-center rounded-md select-none ${
                 active ? 'bg-blue-700' : ''
               }`}
             >

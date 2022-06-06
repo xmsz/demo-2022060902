@@ -32,8 +32,8 @@ function NanoId() {
                 <input
                   value={config.alphabet}
                   className="flex-grow px-1.5 py-0.5 text-sm shadow outline-none"
-                  onInput={(e) => {
-                    setConfig((pre) => ({ ...pre, alphabet: e.target?.value }));
+                  onChange={(e) => {
+                    setConfig((pre) => ({ ...pre, alphabet: e.target.value }));
                   }}
                 />
               ) : (
@@ -57,8 +57,8 @@ function NanoId() {
               type="number"
               value={config.size}
               className="text-xs px-1.5 py-1 shadow outline-none"
-              onInput={(e) => {
-                setConfig((pre) => ({ ...pre, size: Number(e.target?.value) }));
+              onChange={(e) => {
+                setConfig((pre) => ({ ...pre, size: Number(e.target.value) }));
               }}
             />
           </div>
@@ -68,8 +68,8 @@ function NanoId() {
               type="number"
               value={config.count}
               className="text-xs px-1.5 py-1 shadow outline-none"
-              onInput={(e) => {
-                setConfig((pre) => ({ ...pre, count: Number(e.target?.value) }));
+              onChange={(e) => {
+                setConfig((pre) => ({ ...pre, count: Number(e.target.value) }));
               }}
             />
           </div>

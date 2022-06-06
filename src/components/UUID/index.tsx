@@ -60,8 +60,8 @@ function UUID() {
             type="number"
             className="text-xs px-1.5 py-1 shadow  outline-none"
             value={count}
-            onInput={(e) => {
-              setCount(Number(e.target?.value));
+            onChange={(e) => {
+              setCount(Number(e.target.value));
             }}
           />
         </div>

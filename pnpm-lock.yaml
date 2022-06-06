@@ -9,6 +9,7 @@ specifiers:
   ahooks: ^3.4.0
   axios: ^0.27.2
   build-plugin-ignore-style: ^0.1.1
+  crypto-js: ^4.1.1
   dayjs: ^1.11.2
   eslint: ^7.30.0
   events: ^3.3.0
@@ -26,6 +27,7 @@ dependencies:
   '@unocss/reset': 0.37.2
   ahooks: 3.4.0_react@17.0.2
   axios: 0.27.2
+  crypto-js: 4.1.1
   dayjs: 1.11.2
   events: 3.3.0
   nanoid: 3.3.4
@@ -2415,6 +2417,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /css-select/5.1.0:
     resolution: {integrity: sha512-nwoRF1rvRRnnCqqY7updORDsuqKzqYJ28+oSMaJMMgOauh3fvwHqMS7EZpIPqK8GL+g9mKxF1vP/ZjSeNjEVHg==}

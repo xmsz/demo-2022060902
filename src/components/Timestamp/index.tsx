@@ -67,8 +67,8 @@ function Timestamp() {
           <input
             className="px-1 border border-gray-200 rounded text-sm"
             value={inputTimestamp}
-            onInput={(e) => {
-              setInputstamp(e.target?.value || '');
+            onChange={(e) => {
+              setInputstamp(Number(e.target.value));
             }}
           />
 
@@ -109,8 +109,8 @@ function Timestamp() {
           <input
             className="px-1 border border-gray-200 rounded text-sm"
             value={inputDate}
-            onInput={(e) => {
-              setInputDate(e.target?.value || '');
+            onChange={(e) => {
+              setInputDate(e.target.value);
             }}
           />
 
