@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import defaultBackgroundImage from '@/assets/images/surtur-wallpaper.jpg';
 import { useDebounceFn, useRequest } from 'ahooks';
 import services from '@/services';
 import { IPage, IWallpaperItem } from '@/interface';
 import MenuList from '../MenuList';
 import Selector from '../Selector';
+import store from '@/store';
 
 function DesktopAndScreensaver() {
   const [activeKey, setActiveKey] = useState('desktop');
+
+  const [desktopState, desktopDispatch] = store.useModel('desktop');
 
   const { data, run } = useRequest(async (page = 0, pageSize = 16) => {
     const res = await services.wallpaper.list({ page, pageSize });
@@ -66,7 +68,7 @@ function DesktopAndScreensaver() {
             <div
               className="w-32 h-18 bg-no-repeat bg-center bg-cover"
               style={{
-                backgroundImage: `url(${defaultBackgroundImage})`,
+                backgroundImage: `url(${desktopState.background.imageUrl})`,
               }}
             />
           </div>
@@ -101,6 +103,9 @@ function DesktopAndScreensaver() {
                   key={item.url}
                   className="bg-no-repeat bg-cover bg-center"
                   style={{ width: '94px', height: '60px', backgroundImage: `url(${item.url})` }}
+                  onClick={() => {
+                    desktopDispatch.updateBackgroundImageUrl(item.url);
+                  }}
                 />
               );
             })}
