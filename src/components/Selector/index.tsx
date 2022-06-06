@@ -47,6 +47,7 @@ function Selector({ dataSource, value, className, onSelect }: IProps) {
           {dataSource.map((item) => {
             return (
               <div
+                key={item.value}
                 className="flex items-center rounded cursor-default hover:text-white hover:bg-blue-500"
                 onClick={(e) => {
                   e.stopPropagation();
