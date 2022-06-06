@@ -5,6 +5,7 @@ import { IPage, IWallpaperItem } from '@/interface';
 import MenuList from '../MenuList';
 import Selector from '../Selector';
 import store from '@/store';
+import LabelGroup from '../LabelGroup';
 
 function DesktopAndScreensaver() {
   const [activeKey, setActiveKey] = useState('desktop');
@@ -40,27 +41,20 @@ function DesktopAndScreensaver() {
 
   return (
     <div
-      className="w-full p-3 pt-8 bg-gray-50"
+      className="w-full p-3 pt-8 bg-zinc-50"
       style={{
         width: '666px',
       }}
     >
-      <div className="relative p-4 pr-3 pt-7 rounded border border-gray-200 bg-gray-100">
-        <div className="absolute z-10 left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 flex items-center text-sm rounded-md border border-gray-300 bg-gray-200">
-          {[
-            { label: '桌面', value: 'desktop' },
-            { label: '屏幕保护程序', value: 'screensaver' },
-          ].map((item) => {
-            return (
-              <div
-                className={`px-2.5 border-b border-transparent ${
-                  activeKey === item.value ? ' rounded-md border-gray-100 bg-white' : ''
-                } cursor-default`}
-              >
-                {item.label}
-              </div>
-            );
-          })}
+      <div className="relative p-4 pr-3 pt-7 rounded border border-gray-200 bg-zinc-100">
+        <div className="absolute z-10 left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
+          <LabelGroup
+            dataSource={[
+              { label: '桌面', value: 'desktop' },
+              { label: '屏幕保护程序', value: 'screensaver' },
+            ]}
+            activeKey="desktop"
+          />
         </div>
 
         <div className="flex gap-4 py-6 px-4 pt-0">

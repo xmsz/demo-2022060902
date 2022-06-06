@@ -2,9 +2,11 @@ import store from '@/store';
 import { useMemoizedFn } from 'ahooks';
 import { ReactNode, useState } from 'react';
 import TimeIconUrl from '@/assets/images/timestamp.png';
+import UberConferenceIconUrl from '@/assets/images/UberConference.png';
 import { AppOpen } from '../../../../components/WindowWrapper';
 import Timestamp from '@/components/Timestamp';
 import NanoID from '@/components/NanoID';
+import UUID from '@/components/UUID';
 
 interface IDesktopItem {
   id: string;
@@ -15,10 +17,11 @@ interface IDesktopItem {
 const desktopList: IDesktopItem[] = [
   { id: 'timestamp', title: '时间戳转换', icon: TimeIconUrl },
   {
-    id: 'nanoID',
+    id: 'nanoid',
     title: '字符串ID生成器',
     icon: 'https://camo.githubusercontent.com/c306d97014be1caa9a2a511a0ff4722d54a77b0b6c81a18c81113d6051408325/68747470733a2f2f61692e6769746875622e696f2f6e616e6f69642f6c6f676f2e737667',
   },
+  { id: 'uuid', title: 'UUID', icon: UberConferenceIconUrl },
 ];
 
 function Desktop() {
@@ -43,8 +46,12 @@ function Desktop() {
       case 'timestamp':
         AppOpen({ title: '时间戳转换', content: <Timestamp /> });
         break;
-      case 'nanoID':
+      case 'nanoid':
         AppOpen({ title: '字符串ID生成器', content: <NanoID /> });
+        break;
+      case 'uuid':
+        AppOpen({ title: 'UUID生成器', content: <UUID /> });
+        break;
 
       default:
         break;

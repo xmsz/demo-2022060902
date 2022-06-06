@@ -9,12 +9,8 @@ function Timestamp() {
   const [timestamp, setTimestamp] = useState(dayjs().valueOf());
   const [inputDate, setInputDate] = useState(dayjs().format('YYYY-MM-DD HH:mm:ss'));
   const [toDateFormat, setToDateFormat] = useState('YYYY-MM-DD HH:mm:ss');
-  const [dateCopySuccess, setDateResultCopySuccess] = useState(false);
-  const [dateCopyBtnText, setDateCopyBtnText] = useState('复制');
-
   const [inputTimestamp, setInputstamp] = useState(dayjs().valueOf());
   const [toTimestampUnit, setToTimestampUnit] = useState('ms');
-  const [timestampResultCopySuccess, setTimestampResultCopySuccess] = useState(false);
   const dateTimer = useRef<Timeout | null>(null);
 
   const timestampResult = useMemo(
@@ -52,8 +48,8 @@ function Timestamp() {
   });
 
   return (
-    <div className="" style={{ width: '500px' }}>
-      <div className="flex items-center p-4 border-b border-gray-300 bg-gray-50">
+    <div className="" style={{ width: '560px' }}>
+      <div className="flex items-center p-4 border-b border-gray-300 bg-zinc-50">
         <div className="w-20 text-sm text-black text-opacity-50">当前时间：</div>
         <div
           className="text-sm text-black hover:underline cursor-pointer"
@@ -65,7 +61,7 @@ function Timestamp() {
         </div>
       </div>
 
-      <div className="p-4 border-b border-gray-300 bg-gray-100">
+      <div className="p-4 border-b border-gray-300 bg-zinc-100">
         <div className="flex items-center">
           <div className="w-20 text-sm text-black text-opacity-50">时间戳：</div>
           <input
@@ -107,7 +103,7 @@ function Timestamp() {
         </div>
       </div>
 
-      <div className="p-4 bg-gray-50">
+      <div className="p-4 bg-zinc-50">
         <div className="flex items-center ">
           <div className="w-20 text-sm text-black text-opacity-50">时间：</div>
           <input
