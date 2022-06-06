@@ -1,17 +1,24 @@
 import store from '@/store';
 import { useMemoizedFn } from 'ahooks';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import TimeIconUrl from '@/assets/images/timestamp.png';
 import { AppOpen } from '../../../../components/WindowWrapper';
 import Timestamp from '@/components/Timestamp';
 
 interface IDesktopItem {
   id: string;
-  title: string;
+  title: string | ReactNode;
   icon: string;
 }
 
-const desktopList: IDesktopItem[] = [{ id: 'timestamp', title: '时间戳转换', icon: TimeIconUrl }];
+const desktopList: IDesktopItem[] = [
+  { id: 'timestamp', title: '时间戳转换', icon: TimeIconUrl },
+  {
+    id: 'nanoId',
+    title: '字符串ID生成器',
+    icon: 'https://camo.githubusercontent.com/c306d97014be1caa9a2a511a0ff4722d54a77b0b6c81a18c81113d6051408325/68747470733a2f2f61692e6769746875622e696f2f6e616e6f69642f6c6f676f2e737667',
+  },
+];
 
 function Desktop() {
   const [focusId, setFocusId] = useState<IDesktopItem['id']>('');

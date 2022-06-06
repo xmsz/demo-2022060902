@@ -47,14 +47,24 @@ function WindowWrapper() {
     });
   });
 
+  const onApplicationOpenCheck = useMemoizedFn(
+    (payload: { id: IWindowItem['id']; open: () => void; focus: () => void }) => {
+      const { id, open, focus } = payload;
+      const findIndex = state.findIndex((item) => item.id === id);
+      findIndex >= 0 ? focus() : open();
+    },
+  );
+
   useEffect(() => {
     eventEmitter.on('onApplicationOpen', onApplicationOpen);
     eventEmitter.on('onApplicationClose', onApplicationClose);
     eventEmitter.on('onApplicationFocus', onApplicationFocus);
+    eventEmitter.on('onApplicationOpenCheck', onApplicationOpenCheck);
     return () => {
       eventEmitter.off('onApplicationOpen', onApplicationOpen);
       eventEmitter.off('onApplicationClose', onApplicationClose);
       eventEmitter.off('onApplicationFocus', onApplicationFocus);
+      eventEmitter.off('onApplicationOpenCheck', onApplicationOpenCheck);
     };
   }, []);
 
@@ -70,22 +80,25 @@ function WindowWrapper() {
   );
 }
 
-export function AppOpen(payload: { title?: string; headContent?: ReactNode; content: ReactNode }) {
-  const id = dayjs().valueOf();
-  eventEmitter.emit('onApplicationOpen', {
-    id,
-    comp: (
-      <DraggableWrapper
-        key={id}
-        {...payload}
-        onClose={() => {
-          eventEmitter.emit('onApplicationClose', id);
-        }}
-        onFocus={() => {
-          eventEmitter.emit('onApplicationFocus', id);
-        }}
-      />
-    ),
+export function AppOpen(payload: { id?: string; title?: string; headContent?: ReactNode; content: ReactNode }) {
+  const appId = payload.id ? payload.id : dayjs().valueOf();
+  const appFocus = () => {
+    eventEmitter.emit('onApplicationFocus', appId);
+  };
+  const appClose = () => {
+    eventEmitter.emit('onApplicationClose', appId);
+  };
+  const appOpen = () => {
+    eventEmitter.emit('onApplicationOpen', {
+      id: appId,
+      comp: <DraggableWrapper key={appId} {...payload} onClose={appClose} onFocus={appFocus} />,
+    });
+  };
+
+  eventEmitter.emit('onApplicationOpenCheck', {
+    id: appId,
+    open: appOpen,
+    focus: appFocus,
   });
 }
 

@@ -68,6 +68,7 @@ function AppleButton({ active, onClick, onMouseEnter }: Props) {
     switch (title) {
       case '系统偏好设置':
         AppOpen({
+          id: 'systemPreferences',
           headContent: SystemSetting.HeaderElement,
           content: <SystemSetting />,
         });
