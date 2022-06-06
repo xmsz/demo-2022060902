@@ -26,12 +26,12 @@ function DraggableWrapper({
       }}
     >
       <div
-        className="absolute  left-1/2 top-1/2 inline-block bg-white pointer-events-auto shadow-xl overflow-hidden"
+        className="absolute  left-1/2 top-1/2 inline-block pointer-events-auto shadow-xl overflow-hidden"
         style={{ minWidth: '320px', borderRadius: '10px' }}
         onClick={onFocus}
       >
         <div
-          className={`relative flex items-center ${title ? 'h-13' : ''} bg-gray-50 border-b border-gray-300`}
+          className={`relative flex items-center ${title ? 'h-10' : ''} bg-gray-50 border-b border-gray-300`}
           style={{
             minHeight: '36px',
           }}

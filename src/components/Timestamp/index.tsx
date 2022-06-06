@@ -2,6 +2,7 @@ import { useMemoizedFn, useMount, useUnmount } from 'ahooks';
 import { Timeout } from 'ahooks/lib/useRequest/src/types';
 import dayjs from 'dayjs';
 import { useMemo, useRef, useState } from 'react';
+import BtnCopy from '../BtnCopy';
 import Selector from '../Selector';
 
 function Timestamp() {
@@ -9,6 +10,7 @@ function Timestamp() {
   const [inputDate, setInputDate] = useState(dayjs().format('YYYY-MM-DD HH:mm:ss'));
   const [toDateFormat, setToDateFormat] = useState('YYYY-MM-DD HH:mm:ss');
   const [dateCopySuccess, setDateResultCopySuccess] = useState(false);
+  const [dateCopyBtnText, setDateCopyBtnText] = useState('复制');
 
   const [inputTimestamp, setInputstamp] = useState(dayjs().valueOf());
   const [toTimestampUnit, setToTimestampUnit] = useState('ms');
@@ -51,7 +53,7 @@ function Timestamp() {
 
   return (
     <div className="" style={{ width: '500px' }}>
-      <div className="flex items-center p-4 border-b border-gray-300 bg-gray-100">
+      <div className="flex items-center p-4 border-b border-gray-300 bg-gray-50">
         <div className="w-20 text-sm text-black text-opacity-50">当前时间：</div>
         <div
           className="text-sm text-black hover:underline cursor-pointer"
@@ -63,7 +65,7 @@ function Timestamp() {
         </div>
       </div>
 
-      <div className="p-4 border-b border-gray-300 bg-white">
+      <div className="p-4 border-b border-gray-300 bg-gray-100">
         <div className="flex items-center">
           <div className="w-20 text-sm text-black text-opacity-50">时间戳：</div>
           <input
@@ -95,24 +97,17 @@ function Timestamp() {
           <div className="text-sm select-none" style={{ width: '166px' }}>
             {timestampResult}
           </div>
-          <div
-            className="px-2 py-1 text-xs text-white rounded bg-blue-500 select-none cursor-default"
-            onClick={() => {
+          <BtnCopy
+            copyHandler={({ onSuccess }) => {
               navigator.clipboard.writeText(timestampResult).then(() => {
-                setTimestampResultCopySuccess(true);
-                setTimeout(() => {
-                  setTimestampResultCopySuccess(false);
-                }, 2000);
+                onSuccess();
               });
             }}
-          >
-            复制
-          </div>
-          {timestampResultCopySuccess && <div className="text-xs text-blue-500">复制成功</div>}
+          />
         </div>
       </div>
 
-      <div className="p-4 bg-gray-100">
+      <div className="p-4 bg-gray-50">
         <div className="flex items-center ">
           <div className="w-20 text-sm text-black text-opacity-50">时间：</div>
           <input
@@ -140,20 +135,13 @@ function Timestamp() {
           <div className="text-sm select-none" style={{ width: '166px' }}>
             {dateResult}
           </div>
-          <div
-            className="px-2 py-1 text-xs text-white rounded bg-blue-500 select-none cursor-default"
-            onClick={() => {
+          <BtnCopy
+            copyHandler={({ onSuccess }) => {
               navigator.clipboard.writeText(String(dateResult)).then(() => {
-                setDateResultCopySuccess(true);
-                setTimeout(() => {
-                  setDateResultCopySuccess(false);
-                }, 2000);
+                onSuccess();
               });
             }}
-          >
-            复制
-          </div>
-          {dateCopySuccess && <div className="text-xs text-blue-500">复制成功</div>}
+          />
         </div>
       </div>
     </div>
