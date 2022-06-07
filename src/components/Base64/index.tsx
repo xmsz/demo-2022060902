@@ -50,7 +50,7 @@ function Base64() {
               }}
             />
 
-            <div className="flex justify-end gap-2 py-2">
+            <div className="flex justify-end gap-2 py-2 pb-4">
               <button
                 className="px-2 py-0.5 rounded text-xs bg-white shadow select-none cursor-default"
                 onClick={() => {
@@ -124,7 +124,7 @@ function Base64() {
               )}
             </div>
 
-            <div className="flex justify-end gap-2 py-2">
+            <div className="flex justify-end gap-2 py-2 pb-4">
               <button
                 className="px-2 py-0.5 rounded text-xs bg-white shadow select-none cursor-default"
                 onClick={() => {

@@ -4,11 +4,13 @@ import { ReactNode, useState } from 'react';
 import TimeIconUrl from '@/assets/images/timestamp.png';
 import UberConferenceIconUrl from '@/assets/images/UberConference.png';
 import BazarakiIconUrl from '@/assets/images/bazaraki.png';
+import McentBrowserIconUrl from '@/assets/images/mcent_browser.png';
 import { AppOpen } from '../../../../components/WindowWrapper';
 import Timestamp from '@/components/Timestamp';
 import NanoID from '@/components/NanoID';
 import UUID from '@/components/UUID';
 import Base64 from '@/components/Base64';
+import MD5 from '@/components/MD5';
 
 interface IDesktopItem {
   id: string;
@@ -25,6 +27,7 @@ const desktopList: IDesktopItem[] = [
   },
   { id: 'uuid', title: 'UUID', icon: UberConferenceIconUrl },
   { id: 'base64', title: 'base64编码', icon: BazarakiIconUrl },
+  { id: 'md5', title: 'MD5加密', icon: McentBrowserIconUrl },
 ];
 
 function Desktop() {
@@ -57,6 +60,9 @@ function Desktop() {
         break;
       case 'base64':
         AppOpen({ title: 'Base64', content: <Base64 /> });
+        break;
+      case 'md5':
+        AppOpen({ title: 'MD5加密', content: <MD5 /> });
         break;
 
       default:
