@@ -3,9 +3,11 @@ import { useState } from 'react';
 import BtnCopy from '../BtnCopy';
 import LabelGroup from '../LabelGroup';
 import { v1, v3, v4, v5 } from 'uuid';
+import Selector from '../Selector';
 
 function UUID() {
   const [activeKey, setActiveKey] = useState('uuid4');
+  const [contain, setContain] = useState(true);
   const [count, setCount] = useState(1);
   const [result, setResult] = useState('');
 
@@ -27,7 +29,7 @@ function UUID() {
           id = v5(v1(), v1());
           break;
       }
-      list.push(id);
+      list.push(contain ? id : id.replace(/-/gi, ''));
     }
     setResult(list.join('\n'));
   });
@@ -62,6 +64,16 @@ function UUID() {
             value={count}
             onChange={(e) => {
               setCount(Number(e.target.value));
+            }}
+          />
+          <Selector
+            value={contain ? 'contain' : 'uncontain'}
+            dataSource={[
+              { label: '包含 - ', value: 'contain' },
+              { label: '不包含 - ', value: 'uncontain' },
+            ]}
+            onSelect={(value) => {
+              setContain(value === 'contain');
             }}
           />
         </div>
