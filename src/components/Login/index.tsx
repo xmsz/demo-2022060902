@@ -34,7 +34,7 @@ function Password({
   return (
     <input
       value={value}
-      autoComplete="off"
+      autoComplete="new-password"
       type="password"
       placeholder="输入密码"
       className="px-4 mt-3 w-40 text-white text-opacity-90 text-sm leading-7 rounded-full outline-none shadow-lg placeholder:text-white placeholder:text-opacity-35 placeholder:text-xs"
