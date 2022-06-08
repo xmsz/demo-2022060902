@@ -8,9 +8,10 @@ import services from '@/services';
 function UserName({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   return (
     <input
+      autoComplete="off"
       value={value}
       placeholder="输入账号"
-      className="bg-transparent text  px-4 mt-2 text-center text-white text-lg outline-none placeholder:text-white placeholder:text-opacity-30 placeholder:text-sm placeholder:leading-10 placeholder:shadow-none"
+      className="!bg-transparent text  px-4 mt-2 text-center text-white text-lg outline-none placeholder:text-white placeholder:text-opacity-30 placeholder:text-sm placeholder:leading-10 placeholder:shadow-none"
       style={{
         textShadow: value ? '1px 1px #000' : '',
       }}
@@ -33,6 +34,7 @@ function Password({
   return (
     <input
       value={value}
+      autoComplete="off"
       type="password"
       placeholder="输入密码"
       className="px-4 mt-3 w-40 text-white text-opacity-90 text-sm leading-7 rounded-full outline-none shadow-lg placeholder:text-white placeholder:text-opacity-35 placeholder:text-xs"
