@@ -11,7 +11,7 @@ function UserName({ value, onChange }: { value: string; onChange: (value: string
       autoComplete="off"
       value={value}
       placeholder="输入账号"
-      className="!bg-transparent text  px-4 mt-2 text-center text-white text-lg outline-none placeholder:text-white placeholder:text-opacity-30 placeholder:text-sm placeholder:leading-10 placeholder:shadow-none"
+      className="bg-transparent text  px-4 mt-2 text-center text-white text-lg outline-none placeholder:text-white placeholder:text-opacity-30 placeholder:text-sm placeholder:leading-10 placeholder:shadow-none"
       style={{
         textShadow: value ? '1px 1px #000' : '',
       }}
