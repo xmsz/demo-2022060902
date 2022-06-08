@@ -6,6 +6,12 @@ export interface IPage<T> {
   list: T[];
 }
 
+export interface IResponse<T> {
+  code: number;
+  data: T;
+  message: string;
+}
+
 export interface IWallpaperItem {
   title: string;
   url: string;
