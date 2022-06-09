@@ -5,12 +5,7 @@ const Home = lazy(() => import('@/pages/Home'));
 const routerConfig: IRouterConfig[] = [
   {
     path: '/',
-    children: [
-      {
-        path: '/',
-        component: Home,
-      },
-    ],
+    component: Home,
   },
 ];
 
