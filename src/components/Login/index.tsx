@@ -8,7 +8,8 @@ import services from '@/services';
 function UserName({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   return (
     <input
-      autoComplete="off"
+      autoComplete="on"
+      name="username"
       value={value}
       placeholder="输入账号"
       className="bg-transparent text  px-4 mt-2 text-center text-white text-lg outline-none placeholder:text-white placeholder:text-opacity-30 placeholder:text-sm placeholder:leading-10 placeholder:shadow-none"
@@ -34,7 +35,7 @@ function Password({
   return (
     <input
       value={value}
-      autoComplete="new-password"
+      autoComplete="on"
       type="password"
       placeholder="输入密码"
       className="px-4 mt-3 w-40 text-white text-opacity-90 text-sm leading-7 rounded-full outline-none shadow-lg placeholder:text-white placeholder:text-opacity-35 placeholder:text-xs"
@@ -193,7 +194,7 @@ function RegisterForm({ goLogin, onSuccess }: { goLogin: () => void; onSuccess: 
 
   return (
     <>
-      <div className="relative flex flex-col items-center">
+      <form className="relative flex flex-col items-center input-auto-fill-reset">
         <div className="mb-6">
           <svg width="8em" height="8em" viewBox="0 0 32 32">
             <path
@@ -216,7 +217,7 @@ function RegisterForm({ goLogin, onSuccess }: { goLogin: () => void; onSuccess: 
         <div className="absolute z-0 left-1/2 -bottom-12 -translate-x-1/2">
           <Loading visible={loading} content={loadingText} />
         </div>
-      </div>
+      </form>
       <div className="absolute z-0 left-1/2 bottom-20 -translate-x-1/2">
         <div className="flex gap-8">
           <ActionButton text="返回" onClick={goLogin}>
@@ -269,7 +270,7 @@ function LoginForm({ goRegister, onSuccess }: { goRegister: () => void; onSucces
 
   return (
     <>
-      <div className="relative flex flex-col items-center">
+      <form className="relative flex flex-col items-center input-auto-fill-reset">
         <div
           className="mb-6 w-32 h-32 rounded-full bg-no-repeat bg-center bg-cover"
           style={{
@@ -282,7 +283,7 @@ function LoginForm({ goRegister, onSuccess }: { goRegister: () => void; onSucces
         <div className="absolute z-0 left-1/2 -bottom-12 -translate-x-1/2">
           <Loading visible={loading} content={loadingText} />
         </div>
-      </div>
+      </form>
       <div className="absolute z-0 left-1/2 bottom-20 -translate-x-1/2">
         <ActionButton text="去注册" onClick={goRegister}>
           <svg width="1em" height="1em" viewBox="0 0 20 20">
